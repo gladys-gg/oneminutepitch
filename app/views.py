@@ -2,6 +2,8 @@ from flask import Flask, render_template,redirect,flash,url_for,request
 from app import app,db,bcrypt
 from app.models import User, Pitch
 from .forms import *
+from flask_login import login_user, current_user,logout_user,login_required
+
 
 
 @app.route('/')
@@ -40,3 +42,39 @@ def signIn():
             flash('Login Unsuccessful. Please check your username and password', 'danger')
     return render_template('signin.html', title = 'Login', form= form)
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    form=CommentForm()
+    return render_template('comment.html', form= form)
+
+@app.route('/addapitch', methods=['GET', 'POST'])
+@login_required
+def newpitch():
+    form=NewPitchForm()
+    if form.validate_on_submit():
+        pitch = Pitch(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(pitch)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('index'))
+    return render_template('newpitch.html', form= form)
+
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    form = ProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated.','success')
+        return redirect(url_for('account'))
+    elif request.method =='GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    return render_template('account.html', title='Account', form = form)
