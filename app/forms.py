@@ -19,3 +19,11 @@ class LogInForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+    
+    
+class NewPitchForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    title = StringField('Title', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
+    content =TextAreaField('New Pitch', validators=[DataRequired()])
+    submit = SubmitField('Post')
