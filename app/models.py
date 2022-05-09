@@ -1,4 +1,5 @@
 from . import db
+from datetime import datetime
 
 
 class User(db.Model):
@@ -7,6 +8,7 @@ class User(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255))
     email = db.Column(db.String(255),unique = True)
+    image_file = db.Column(db.String(100), default='default.jpg')
     password = db.Column(db.String(255))
     pitches = db.relationship('Pitch', backref='author', lazy="dynamic")
     comments = db.relationship('Comment', backref='user', lazy="dynamic")
@@ -16,7 +18,7 @@ class User(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f'User {self.username}'
+        return f'User ('{self.username}','{self.email}','{self.image_file}')'
     
     
 class Pitch(db.Model):
@@ -26,6 +28,7 @@ class Pitch(db.Model):
     title= db.Column(db.String(50))
     content = db.Column(db.String(300))
     category_id = db.Column(db.String)
+    date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     comments = db.relationship('Comment', backref='pitch', lazy="dynamic")
 
@@ -36,7 +39,7 @@ class Pitch(db.Model):
         db.session.commit()    
         
     def __repr__(self):
-        return f"Pitch('{self.title}')"
+        return f"Pitch('{self.title}','{self.date_posted}')"
     
     
 class Comment(db.Model):
