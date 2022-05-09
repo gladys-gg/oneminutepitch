@@ -6,12 +6,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{{url_for('main.index')}}">Home</a>
+                <a class="nav-item nav-link" href="{{url_for('index')}}">Home</a>
                 
             </div>
             
             <div class="navbar-nav ms-auto">
-           
+                {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{url_for('account')}}">Account</a>
+                <a class="nav-item nav-link " href="{{url_for('newpitch')}}">New Pitch</a>
+                <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+            {%else%}
+                <a class="nav-item nav-link" href="{{url_for('register')}}">SignUp</a>
+                <a class="nav-item nav-link" href="{{url_for('signIn')}}">SignIn</a>
+            {% endif %}
             </div>
         </div>
     </div>
