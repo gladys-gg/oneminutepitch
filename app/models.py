@@ -18,7 +18,7 @@ class User(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return f'User ('{self.username}','{self.email}','{self.image_file}')'
+        return f"User ('{self.username}','{self.email}','{self.image_file}')"
     
     
 class Pitch(db.Model):
