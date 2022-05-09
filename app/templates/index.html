@@ -3,5 +3,17 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<h1>hello world</h1>
+    {% for pitch in pitches %}
+            <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + pitch.author.image_file) }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="#">{{ pitch.author.username }}</a>
+                <small class="text-muted">{{ pitch.date_posted.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ pitch.title }}</a></h2>
+                <p class="article-content">{{ pitch.content }}</p>
+            </div>
+            </article>
+    {% endfor %}
 {% endblock %}

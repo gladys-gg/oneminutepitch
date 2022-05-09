@@ -1,3 +1,4 @@
+# from PIL import image
 from flask import Flask, render_template,redirect,flash,url_for,request
 from app import app,db,bcrypt
 from app.models import User, Pitch
@@ -9,7 +10,11 @@ from flask_login import login_user, current_user,logout_user,login_required
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    '''
+    View root page function that returns the index page and its data
+    '''
+    pitches = Pitch.query.all()
+    return render_template('index.html', pitches=pitches)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -69,6 +74,9 @@ def newpitch():
 def account():
     form = ProfileForm()
     if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
@@ -77,4 +85,5 @@ def account():
     elif request.method =='GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
-    return render_template('account.html', title='Account', form = form)
+    image_file = url_for('static',filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account', image_file = image_file, form = form)
