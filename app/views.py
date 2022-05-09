@@ -1,5 +1,5 @@
-# from PIL import image
-from flask import Flask, render_template,redirect,flash,url_for,request
+from PIL import Image
+from flask import Flask, render_template,redirect,flash,url_for,request,abort
 from app import app,db,bcrypt
 from app.models import User, Pitch
 from .forms import *
@@ -32,6 +32,8 @@ def register():
             flash(f'There was an error in creating the user:(err_msg)')
     return render_template('signUp.html', form= form)
 
+
+
 @app.route('/signIn', methods=['GET', 'POST'])
 def signIn():
     if current_user.is_authenticated:
@@ -47,6 +49,8 @@ def signIn():
             flash('Login Unsuccessful. Please check your username and password', 'danger')
     return render_template('signin.html', title = 'Login', form= form)
 
+
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -57,7 +61,9 @@ def comment():
     form=CommentForm()
     return render_template('comment.html', form= form)
 
-@app.route('/addapitch', methods=['GET', 'POST'])
+
+
+@app.route('/pitch/new', methods=['GET', 'POST'])
 @login_required
 def newpitch():
     form=NewPitchForm()
@@ -67,7 +73,35 @@ def newpitch():
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('index'))
-    return render_template('newpitch.html', form= form)
+    return render_template('newpitch.html', form= form, legend='New Post')
+
+
+
+@app.route("/pitch/<int:pitch_id>")
+def allPitch(pitch_id):
+    pitch = Pitch.query.get_or_404(pitch_id)
+    return render_template('Allpitches.html', title=pitch.title, pitch=pitch)
+
+
+
+@app.route("/pitch/<int:pitch_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_pitch(pitch_id):
+    pitch = Pitch.query.get_or_404(pitch_id)
+    if pitch.author != current_user:
+        abort(403)
+    form = NewPitchForm()
+    if form.validate_on_submit():
+        pitch.title = form.title.data
+        pitch.content = form.content.data
+        db.session.commit()
+        flash('Your pitch has been updated!', 'success')
+        return redirect(url_for('pitch', pitch_id=pitch.id))
+    elif request.method == 'GET':
+        form.title.data = pitch.title
+        form.content.data = pitch.content
+    return render_template('newpitch.html', title='Update pitch',form=form, legend='Update Pitch')
+
 
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
