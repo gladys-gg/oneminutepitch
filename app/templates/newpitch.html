@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row" style="background-color: bisque;">
+    <marquee><h1 class="text-primary">Add your Pitch</h1> </marquee>
+    <div class="col-lg-6">
+        <img src="{{ url_for('static', filename = '/images/addpitch.png')}}" alt="image" style="width: 100%;">
+    </div>
+    <div class="col-lg-6">
+        <form action="" method="post" class="centerForm">
+            {{form.hidden_tag()}}
+            <fieldset>
+                <div class="form-group">
+                    <p>{{ form.email.label(class="form-control-label") }}</p>
+                    <p>{{ form.email(class="form-control-input") }}</p>
+                </div>
+                <div class="form-group">
+                    <p>{{ form.title.label(class="form-control-label") }}</p>
+                    <p> {{ form.title(class="form-control-input") }}</p>
+                </div>
+                <div class="form-group">
+                    <p>{{ form.category.label(class="form-control-label") }}</p>
+                    <p> {{ form.category(class="form-control-input") }}</p>
+                </div>
+                <div class="form-group">
+                    <p>{{ form.content.label(class="form-control-label") }}</p>
+                    <p> {{ form.content(class="form-control-input") }}</p>
+                </div>
+            </fieldset>    
+
+                <div class="form-group">
+                    {{ form.submit(class="btn bg-warning") }}
+                </div>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
