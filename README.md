@@ -15,7 +15,7 @@
 5. Lastly run  $python3 manage.py to run the app.
 
 #### Technologies used
-Python ( version 3.9 ) Flask Microframework and PostgreSQL database
+#### Python ( version 3.9 ) Flask Microframework and PostgreSQL database
 
 #### License
 ##### Copyright (C) 2022 ~ gladysmwangi04@yahoo.com
