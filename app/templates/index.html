@@ -12,7 +12,7 @@
 <div class="container" id="cards">
     <div class="row">
         <div class="col-sm-4">
-        <div class="card">
+        <div class="card" style="background-color: #FFEBCD;">
             <div class="card-body">
             <h5 class="card-title">Business Pitch</h5>
             <p class="card-text">What is a Business Pitch? A business pitch is a business plan that you
@@ -23,7 +23,7 @@
         </div>
         </div>
         <div class="col-sm-4">
-            <div class="card">
+            <div class="card"  style="background-color: #FFEBCD;">
                 <div class="card-body">
                 <h5 class="card-title">An Elevator Pitch</h5>
                 <p class="card-text">
@@ -34,7 +34,7 @@
             </div>
             </div>
         <div class="col-sm-4">
-        <div class="card">
+        <div class="card" style="background-color: #FFEBCD;">
             <div class="card-body">
             <h5 class="card-title">Cheesy Pickup Lines</h5>
             <p class="card-text">This is a prepared remark used by a person to start a conversation with a stranger 
@@ -47,12 +47,11 @@
 </div>
 <h4 class="text-center mt-3"> Below are some of the pitches posted by our users.</h4>
     {% for pitch in pitches %}
-    <div class="container" style=background-color:antiquewhite>
+    <div class="container" style=background-color:white>
         <div class="row">
             <div class="col-md-4">
-                <div class="card">
+                <div class="card" style=background-color:#FFEBCD>
                     
-                        <article class="media content-section">
                             <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + pitch.author.image_file) }}">
                         <div class="article-metadata">
                             <a class="mr-2" href="#">{{ pitch.author.username }}</a>
@@ -62,7 +61,7 @@
                                 <p class="article-content">{{ pitch.content }}</p>
                             </div>
                         </div>
-                        </article>
+
 
                 </div>
             </div>

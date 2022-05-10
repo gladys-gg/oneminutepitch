@@ -24,20 +24,10 @@
         color: #ffffff;
     }
     
-    .site-header .navbar-nav .nav-link.active {
-        font-weight: 500;
-    }
-    
-    .content-section {
-        background: #ffffff;
-        padding: 10px 20px;
-        border: 1px solid #dddddd;
-        border-radius: 3px;
-        margin-bottom: 20px;
-    }
     
     .article-title {
         color: #444444;
+        font-size: Large;
     }
     
     a.article-title:hover {
@@ -80,5 +70,5 @@
     }
     
     .account-heading {
-        font-size: 2.5rem;
+        font-size: 1.5rem;
     }
