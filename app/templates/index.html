@@ -3,25 +3,71 @@
 {{ super() }}
 {% endblock %}
 {% block content %}
-<img src="{{ url_for ('static', filename ='images/elevator.jpg')}}">
-    {% for pitch in pitches %}
-    <div class="container" style=background-color:antiquewhite;>
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + pitch.author.image_file) }}">
-        <div class="row">
-            <div class = "col-md-8">
-            
-            <div class="media-body">
-                <div class="article-metadata">
-                <a class="mr-2" href="#">{{ pitch.author.username }}</a>
-                <small class="text-muted">{{ pitch.date_posted.strftime('%Y-%m-%d') }}</small>
-                </div>
-            
-                <h2><a class="article-title" href="{{url_for('allPitch', pitch_id = pitch.id)}}">{{ pitch.title }}</a></h2>
-                <p class="article-content">{{ pitch.content }}</p>
+<!-- <img src="{{ url_for ('static', filename ='images/elevator.jpg')}}"> -->
+<div class="heading mt-2">
+        <h2 class="text-center"><span style="color:#900C3F"> Welcome to One-Minute-Pitch Platform.</span></h2>
+        <p class="text-center">Here, we give you a platform to pitch effectively, so that 
+            you can motivate and persuade your audience to follow your idea and make it a reality.</p>
+</div>
+<div class="container" id="cards">
+    <div class="row">
+        <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">Business Pitch</h5>
+            <p class="card-text">What is a Business Pitch? A business pitch is a business plan that you
+                present to your potential investors to secure funding. 
+                The pitch helps you explain your business to investors to enable them to make the 
+                right decisions.</p>
             </div>
         </div>
-        </article>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">An Elevator Pitch</h5>
+                <p class="card-text">
+                    An elevator pitch is a brief (think 30 seconds!) way of introducing yourself, getting across 
+                    a key point or two, and making a connection with someone. It's called an elevator p
+                    itch because it takes roughly the amount of time you'd spend riding an elevator with someone.</p>
+                </div>
+            </div>
+            </div>
+        <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">Cheesy Pickup Lines</h5>
+            <p class="card-text">This is a prepared remark used by a person to start a conversation with a stranger 
+                they are interested in having a romantic relationship with He tried using one of his clever 
+                pickup lines on her, but it didn't work.</p>
+            </div>
+        </div>
+        </div>
     </div>
+</div>
+<h4 class="text-center mt-3"> Below are some of the pitches posted by our users.</h4>
+    {% for pitch in pitches %}
+    <div class="container" style=background-color:antiquewhite>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    
+                        <article class="media content-section">
+                            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + pitch.author.image_file) }}">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="#">{{ pitch.author.username }}</a>
+                            <small class="text-muted">{{ pitch.date_posted.strftime('%Y-%m-%d') }}</small>
+                            <div class="media-text">
+                                <h2><a class="article-title" href="{{url_for('allPitch', pitch_id = pitch.id)}}">{{ pitch.title }}</a></h2>
+                                <p class="article-content">{{ pitch.content }}</p>
+                            </div>
+                        </div>
+                        </article>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% endfor %}
 {% endblock %}

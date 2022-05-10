@@ -7,6 +7,10 @@
     h1, h2, h3, h4, h5, h6 {
         color: #0f0f0f;
     }
+    .card{        
+        box-shadow: 0 4px 4px 0 rgba(0,0,0,0.2);
+        padding: 2px 16px;
+    }
     
     .bg-steel {
         background-color: #5f788a;

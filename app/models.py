@@ -16,9 +16,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255),unique = True)
     image_file = db.Column(db.String(100), default='default.jpg')
     password = db.Column(db.String(255))
-    pitches = db.relationship('Pitch', backref='author', lazy="dynamic",passive_delete= True)
-    comments = db.relationship('Comment', backref='author', lazy="dynamic", passive_delete = True)
-    likes = db.relationship('like', backref='user', lazy="dynamic", passive_delete = True)
+    pitches = db.relationship('Pitch', backref='author', lazy="dynamic")
+    comments = db.relationship('Comment', backref='author', lazy="dynamic")
+    likes = db.relationship('Like', backref='author', lazy="dynamic" )
 
     def save_user(self):
         db.session.add(self)
@@ -37,8 +37,8 @@ class Pitch(db.Model):
     category_id = db.Column(db.String)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="CASCADE"))
-    comments = db.relationship('Comment', backref='pitch', lazy="dynamic", passive_delete = True)
-    likes = db.relationship('Like', backref='pitch', lazy="dynamic", passive_delete = True)
+    comments = db.relationship('Comment', backref='pitch', lazy="dynamic")
+    likes = db.relationship('Like', backref='pitch', lazy="dynamic")
 
 
     def save_pitch(self, pitch):

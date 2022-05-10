@@ -1,7 +1,7 @@
 from PIL import Image
 from flask import Flask, render_template,redirect,flash,url_for,request,abort
 from app import app,db,bcrypt
-from app.models import User, Pitch
+from app.models import *
 from .forms import *
 from flask_login import login_user, current_user,logout_user,login_required
 
@@ -14,7 +14,7 @@ def index():
     View root page function that returns the index page and its data
     '''
     pitches = Pitch.query.all()
-    return render_template('index.html', pitches=pitches)
+    return render_template('index.html', user=current_user, pitches=pitches)
 
 
 @app.route('/register', methods=['GET', 'POST'])
