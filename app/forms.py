@@ -3,7 +3,7 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo,ValidationError
-from app.models import User
+from app.models import *
 
 
 
@@ -64,4 +64,11 @@ class ProfileForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. PLease choose a different one.')
+            
+
+class CommentForm(FlaskForm):
+
+    title = StringField('Comment Title')
+    comment = TextAreaField('Post Of The Comment')
+    submit = SubmitField('Submit')
  

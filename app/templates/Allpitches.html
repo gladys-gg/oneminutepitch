@@ -11,11 +11,50 @@
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_pitch', pitch_id=pitch.id) }}">Update</a>
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
             </div>
+
             {% endif %}
+
+                    <!--Comment section-->
+
+        
+        <div class="card-body col-sm-6">
+            <div class="card-text">{{ pitch.content}}</div>
+            <br>
+            <div class="" id="comments-{{pitch.id}}">
+                <div class="card">
+                    <div class="card-body" id="comments-expanded-{{pitch.id}}">
+                        <br>
+                        {% for comment in pitch.comments%}
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                            <a href="/pitches/{{comment.user.username}}">{{comment.user.username}}</a>: {{comment.text}}
+                            </div>
+                            <div>
+                                <small class="text-muted">{{comment.date_posted}}</small> 
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <br>
+                    </div>
+                </div>
+
+            </div>
+            <form class="input-group mb-3" methods="POST" action="/create-comment/{{pitch.id}}">
+                <input type="text" id="text" name="text" class="form-control" placeholder="Say something.">
+                <button type="submit" class="btn btn-info">Comment</button>
+            </form>
+        </div>
+
         </div>
         <h2 class="article-title">{{ pitch.title }}</h2>
         <p class="article-content">{{ pitch.content }}</p>
+        <div>
+            {{ pitch.like|length}}
+            <a class="mt-1 mb-1" href="{{('like-pitch/pitch_id=pitch.id')}}"><i class="fa-solid fa-thumbs-up"></i></a>
+            
         </div>
+
+
     </article>
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

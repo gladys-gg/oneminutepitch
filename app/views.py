@@ -83,6 +83,7 @@ def allPitch(pitch_id):
     return render_template('Allpitches.html', title=pitch.title, pitch=pitch)
 
 
+#uppdating a post
 
 @app.route("/pitch/<int:pitch_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -103,6 +104,20 @@ def update_pitch(pitch_id):
     return render_template('newpitch.html', title='Update pitch',form=form, legend='Update Pitch')
 
 
+#deleting a post
+@app.route("/pitch/<int:pitch_id>/delete", methods=['POST'])
+@login_required
+def delete_pitch(pitch_id):
+    pitch = Pitch.query.get_or_404(pitch_id)
+    if pitch.author != current_user:
+        abort(403)
+    db.session.delete(pitch)
+    db.session.commit()
+    flash('Your pitch has been deleted!', 'success')
+    return redirect(url_for('index'))
+
+
+#updating a user profile
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -121,3 +136,40 @@ def account():
         form.email.data = current_user.email
     image_file = url_for('static',filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file = image_file, form = form)
+
+#liking a specific post
+@app.route('/like-pitch/<pitch_id>', methods=['GET'])
+@login_required
+def like(pitch_id):
+    pitch = Pitch.query.filter_by(id=pitch_id)
+    like = Like.query.filter_by(author=current_user.id, pitch_id=pitch_id).first()
+    if not pitch:
+        flash('Post does not exist.')
+    elif like:
+        db.session.delete(like)
+        db.session.commit()
+    else:
+        like = Like(author=current_user.id, pitch_id=pitch_id)
+        db.session.add(like)
+        db.session.commit()
+        
+    return redirect(url_for('index'))
+        
+@app.route("/create-comment/<pitch_id>/", methods=['POST', 'GET'])
+@login_required
+def create_comment(pitch_id):
+    comment = request.form.get('text')
+    flash('comment updated.')    
+    if not comment:
+        flash('Comment cannot be empty.')
+    else:
+        pitch = Pitch.query.filter_by(id=post_id)
+        if pitch:
+            comment = Comment(comment=comment, author=current_user.id, pitch_id=pitch_id)
+            db.session.add(comment)
+            db.session.commit()
+        else:
+            flash('Post does not exist.')
+    return redirect(url_for('index'))
+    
+
