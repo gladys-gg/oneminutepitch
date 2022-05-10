@@ -97,7 +97,7 @@ def update_pitch(pitch_id):
         pitch.content = form.content.data
         db.session.commit()
         flash('Your pitch has been updated!', 'success')
-        return redirect(url_for('pitch', pitch_id=pitch.id))
+        return redirect(url_for('newpitch', pitch_id=pitch.id))
     elif request.method == 'GET':
         form.title.data = pitch.title
         form.content.data = pitch.content

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField,TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo,ValidationError
 from app.models import *
 
@@ -40,7 +40,10 @@ class LogInForm(FlaskForm):
 class NewPitchForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     title = StringField('Title', validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
+    category = SelectField('Pitch Category', choices=[('product', 'product'),
+                                                      ('service', 'service'),
+                                                      ('Pick Up Line', 'PickUpLine'),
+                                                      ('business', 'business')])
     content =TextAreaField('New Pitch', validators=[DataRequired()])
     submit = SubmitField('Post')
     
@@ -51,6 +54,9 @@ class ProfileForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg','png'])])
+    
+    bio =TextAreaField('About yourself', validators=[DataRequired()])
+    
     submit = SubmitField('Update')
     
     def validate_username(self,username):
